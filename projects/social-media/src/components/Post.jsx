@@ -1,11 +1,10 @@
 import { useContext } from "react";
 import { PostList } from "../store/post-list-store";
-import { BiDislike } from "react-icons/bi";
-import { BiLike } from "react-icons/bi";
+import { BiDislike, BiLike } from "react-icons/bi";
 import { RiChatDeleteFill } from "react-icons/ri";
 
-const Post = ({ id, title, content, reactions, tags }) => {
-  const { deletePost } = useContext(PostList);
+const Post = ({ id, title, content, tags, reactions }) => {
+  const { deletePost, likePost, dislikePost } = useContext(PostList);
 
   return (
     <div className="card" style={{ width: "33rem", margin: "10px" }}>
@@ -29,10 +28,16 @@ const Post = ({ id, title, content, reactions, tags }) => {
           ))}
       </div>
       <div className="card-reactions">
-        <button className="btn btn-primary card-reaction ">
+        <button
+          className="btn btn-primary card-reaction"
+          onClick={() => likePost(id)}
+        >
           <BiLike /> {reactions.likes} Like
         </button>
-        <button className="btn btn-warning card-reaction">
+        <button
+          className="btn btn-warning card-reaction"
+          onClick={() => dislikePost(id)}
+        >
           <BiDislike /> {reactions.dislikes} Dislike
         </button>
       </div>

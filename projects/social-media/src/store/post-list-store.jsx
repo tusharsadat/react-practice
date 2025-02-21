@@ -4,6 +4,8 @@ export const PostList = createContext({
   posts: [],
   addPost: () => {},
   deletePost: () => {},
+  likePost: () => {},
+  dislikePost: () => {},
 });
 
 const postReducer = (state, action) => {
@@ -12,6 +14,27 @@ const postReducer = (state, action) => {
       return [...state, action.post];
     case "DELETE_POST":
       return state.filter((post) => post.id !== action.postId);
+    case "LIKE_POST":
+      return state.map((post) =>
+        post.id === action.postId
+          ? {
+              ...post,
+              reactions: { ...post.reactions, likes: post.reactions.likes + 1 },
+            }
+          : post
+      );
+    case "DISLIKE_POST":
+      return state.map((post) =>
+        post.id === action.postId
+          ? {
+              ...post,
+              reactions: {
+                ...post.reactions,
+                dislikes: post.reactions.dislikes + 1,
+              },
+            }
+          : post
+      );
     default:
       return state;
   }
@@ -67,9 +90,17 @@ const PostListStore = ({ children }) => {
   const deletePost = (postId) => {
     dispatch({ type: "DELETE_POST", postId });
   };
+  const likePost = (postId) => {
+    dispatch({ type: "LIKE_POST", postId });
+  };
+  const dislikePost = (postId) => {
+    dispatch({ type: "DISLIKE_POST", postId });
+  };
 
   return (
-    <PostList.Provider value={{ posts, addPost, deletePost }}>
+    <PostList.Provider
+      value={{ posts, addPost, deletePost, likePost, dislikePost }}
+    >
       {children}
     </PostList.Provider>
   );
