@@ -1,16 +1,40 @@
-const Post = () => {
+import { useContext } from "react";
+import { PostList } from "../store/post-list-store";
+import { BiDislike } from "react-icons/bi";
+import { BiLike } from "react-icons/bi";
+import { RiChatDeleteFill } from "react-icons/ri";
+
+const Post = ({ id, title, content, reactions, tags }) => {
+  const { deletePost } = useContext(PostList);
+
   return (
-    <div className="card" style={{ width: "18rem", margin: "10px" }}>
+    <div className="card" style={{ width: "33rem", margin: "10px" }}>
+      <button
+        className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+        onClick={() => deletePost(id)}
+      >
+        <RiChatDeleteFill />
+      </button>
       <img src="..." className="card-img-top" alt="..." />
       <div className="card-body">
-        <h5 className="card-title">Card title</h5>
-        <p className="card-text">
-          Some quick example text to build on the card title and make up the
-          bulk of the cards content.
-        </p>
-        <a href="#" className="btn btn-primary">
-          Go somewhere
-        </a>
+        <h5 className="card-title">{title}</h5>
+        <p className="card-text">{content}</p>
+      </div>
+      <div className="card-tags">
+        {tags &&
+          tags.map((tag) => (
+            <span key={tag} className="badge bg-info text-dark card-tag">
+              {tag}
+            </span>
+          ))}
+      </div>
+      <div className="card-reactions">
+        <button className="btn btn-primary card-reaction ">
+          <BiLike /> {reactions.likes} Like
+        </button>
+        <button className="btn btn-warning card-reaction">
+          <BiDislike /> {reactions.dislikes} Dislike
+        </button>
       </div>
     </div>
   );

@@ -13,5 +13,17 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin: 10px 10px 10px 10px;
+  /* margin: 10px 10px 10px 10px; */
+}
+.card-tags{
+  margin: 10px 10px ;
+}
+.card-reactions{
+  margin: 10px 10px ;
+}
+.card-tag{
+  margin: 5px 5px ;
+}
+.card-reaction{
+  margin: 5px 5px ;
 }

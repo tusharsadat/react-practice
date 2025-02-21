@@ -1,28 +1,48 @@
-const CreatePost = () => {
-  return (
-    <form>
-      <div className="mb-3">
-        <label htmlFor="exampleInputEmail1" className="form-label">
-          Email address
-        </label>
-        <input
-          type="email"
-          className="form-control"
-          id="exampleInputEmail1"
-          aria-describedby="emailHelp"
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="exampleInputPassword1" className="form-label">
-          Password
-        </label>
-        <input
-          type="password"
-          className="form-control"
-          id="exampleInputPassword1"
-        />
-      </div>
+import { useState, useContext } from "react";
+import { PostList } from "../store/post-list-store";
 
+const CreatePost = () => {
+  const { addPost } = useContext(PostList);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newPost = {
+      id: Date.now(),
+      title,
+      content,
+    };
+    addPost(newPost);
+    setTitle("");
+    setContent("");
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="mb-3">
+        <label htmlFor="postTitle" className="form-label">
+          Title
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          id="postTitle"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="postContent" className="form-label">
+          Content
+        </label>
+        <textarea
+          className="form-control"
+          id="postContent"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
+      </div>
       <button type="submit" className="btn btn-primary">
         Submit
       </button>
